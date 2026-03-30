@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1a15;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#162820;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0a1210;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="600" fill="url(#bg3)"/>
+  <!-- Decorative border -->
+  <rect x="15" y="15" width="370" height="570" fill="none" stroke="#c9a96e" stroke-width="0.5" opacity="0.3"/>
+  <rect x="20" y="20" width="360" height="560" fill="none" stroke="#c9a96e" stroke-width="0.3" opacity="0.2"/>
+  <!-- Gown silhouette outline -->
+  <path d="M 200 80 Q 240 100 250 130 Q 255 155 250 170 Q 300 230 330 320 Q 360 420 355 540 L 45 540 Q 40 420 70 320 Q 100 230 150 170 Q 145 155 150 130 Q 160 100 200 80 Z" fill="none" stroke="#c9a96e" stroke-width="0.8" opacity="0.4"/>
+  <!-- Top ornament -->
+  <line x1="170" y1="40" x2="230" y2="40" stroke="#c9a96e" stroke-width="0.8" opacity="0.6"/>
+  <circle cx="200" cy="40" r="3" fill="#c9a96e" opacity="0.6"/>
+  <circle cx="175" cy="40" r="1.5" fill="#c9a96e" opacity="0.4"/>
+  <circle cx="225" cy="40" r="1.5" fill="#c9a96e" opacity="0.4"/>
+  <!-- Label -->
+  <text x="200" y="500" text-anchor="middle" font-family="serif" font-style="italic" font-size="16" fill="#c9a96e" opacity="0.8">Gown 3</text>
+  <line x1="160" y1="510" x2="240" y2="510" stroke="#c9a96e" stroke-width="0.5" opacity="0.4"/>
+  <text x="200" y="530" text-anchor="middle" font-family="sans-serif" font-size="10" letter-spacing="3" fill="#c9a96e" opacity="0.5">COLLECTION</text>
+</svg>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="featbg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1a15;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a2e25;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#featbg)"/>
+  <rect x="20" y="20" width="760" height="460" fill="none" stroke="#c9a96e" stroke-width="0.5" opacity="0.25"/>
+  <!-- Central gown motif -->
+  <path d="M 400 60 Q 440 85 450 115 Q 455 140 448 155 Q 500 210 530 295 Q 560 385 555 450 L 245 450 Q 240 385 270 295 Q 300 210 352 155 Q 345 140 350 115 Q 360 85 400 60 Z" fill="none" stroke="#c9a96e" stroke-width="0.8" opacity="0.35"/>
+  <!-- Decorative elements -->
+  <line x1="200" y1="250" x2="340" y2="250" stroke="#c9a96e" stroke-width="0.5" opacity="0.2"/>
+  <line x1="460" y1="250" x2="600" y2="250" stroke="#c9a96e" stroke-width="0.5" opacity="0.2"/>
+  <circle cx="400" cy="250" r="40" fill="none" stroke="#c9a96e" stroke-width="0.4" opacity="0.15"/>
+  <!-- Label -->
+  <text x="400" y="385" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="22" fill="#c9a96e" opacity="0.85"></text>
+  <line x1="310" y1="398" x2="490" y2="398" stroke="#c9a96e" stroke-width="0.6" opacity="0.4"/>
+  <text x="400" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" letter-spacing="4" fill="#c9a96e" opacity="0.5">LUXURY BRIDAL</text>
+</svg>
