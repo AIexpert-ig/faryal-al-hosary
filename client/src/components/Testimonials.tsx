@@ -9,7 +9,7 @@ import { Star } from 'lucide-react';
 function TestimonialImage({ src, alt, name }: { src: string; alt: string; name: string }) {
   const [errored, setErrored] = useState(false);
   if (errored) {
-    const initials = name.split(' ').map((n) => n[0]).join('');
+    const initials = name.split(' ').map((n) => n?.[0] ?? '').join('');
     return (
       <div
         style={{
