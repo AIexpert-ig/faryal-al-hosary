@@ -53,7 +53,7 @@ const emptyRental: Rental = {
 };
 
 function StatusBadge({ status }: { status: RentalStatus }) {
-  const colors = statusColors[status];
+  const colors = statusColors[status] ?? { bg: 'rgba(156,163,175,0.12)', text: '#374151' };
   return (
     <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '0.25rem 0.6rem', borderRadius: '2px', background: colors.bg, color: colors.text }}>
       {status}
