@@ -21,6 +21,7 @@ interface InventoryUnit {
   condition_rating: number;
   category: string;
   notes?: string;
+  image?: string;
 }
 
 const statusColors: Record<UnitStatus, { bg: string; text: string }> = {
@@ -42,12 +43,12 @@ const emptyUnit: InventoryUnit = {
 };
 
 const demoUnits: InventoryUnit[] = [
-  { id: 1, sku: 'VW-KAT-01', gown_name: 'Katherine A-Line', designer: 'Vera Wang', size: '6', color: 'Ivory', status: 'Available', rental_price: 25000, condition_rating: 10, category: 'Bridal' },
-  { id: 2, sku: 'ES-CEL-03', gown_name: 'Celeste Evening', designer: 'Elie Saab', size: '8', color: 'Navy', status: 'Rented', rental_price: 20000, condition_rating: 9, category: 'Evening' },
-  { id: 3, sku: 'ZM-AMA-02', gown_name: 'Amara Ball Gown', designer: 'Zuhair Murad', size: '4', color: 'White', status: 'Available', rental_price: 32000, condition_rating: 10, category: 'Bridal' },
-  { id: 4, sku: 'OLR-ISA-01', gown_name: 'Isabella Cocktail', designer: 'Oscar de la Renta', size: '6', color: 'Champagne', status: 'Cleaning', rental_price: 15000, condition_rating: 8, category: 'Cocktail' },
-  { id: 5, sku: 'ML-ELG-04', gown_name: 'Elegance Column', designer: 'Monique Lhuillier', size: '10', color: 'Blush', status: 'Reserved', rental_price: 22000, condition_rating: 9, category: 'Bridal' },
-  { id: 6, sku: 'VW-KAT-02', gown_name: 'Katherine A-Line', designer: 'Vera Wang', size: '10', color: 'Ivory', status: 'Available', rental_price: 25000, condition_rating: 10, category: 'Bridal' },
+  { id: 1, sku: 'VW-KAT-01', gown_name: 'Katherine A-Line', designer: 'Vera Wang', size: '6', color: 'Ivory', status: 'Available', rental_price: 25000, condition_rating: 10, category: 'Bridal', image: '/images/gown-1.svg' },
+  { id: 2, sku: 'ES-CEL-03', gown_name: 'Celeste Evening', designer: 'Elie Saab', size: '8', color: 'Navy', status: 'Rented', rental_price: 20000, condition_rating: 9, category: 'Evening', image: '/images/gown-2.svg' },
+  { id: 3, sku: 'ZM-AMA-02', gown_name: 'Amara Ball Gown', designer: 'Zuhair Murad', size: '4', color: 'White', status: 'Available', rental_price: 32000, condition_rating: 10, category: 'Bridal', image: '/images/gown-3.svg' },
+  { id: 4, sku: 'OLR-ISA-01', gown_name: 'Isabella Cocktail', designer: 'Oscar de la Renta', size: '6', color: 'Champagne', status: 'Cleaning', rental_price: 15000, condition_rating: 8, category: 'Cocktail', image: '/images/gown-4.svg' },
+  { id: 5, sku: 'ML-ELG-04', gown_name: 'Elegance Column', designer: 'Monique Lhuillier', size: '10', color: 'Blush', status: 'Reserved', rental_price: 22000, condition_rating: 9, category: 'Bridal', image: '/images/gown-5.svg' },
+  { id: 6, sku: 'VW-KAT-02', gown_name: 'Katherine A-Line', designer: 'Vera Wang', size: '10', color: 'Ivory', status: 'Available', rental_price: 25000, condition_rating: 10, category: 'Bridal', image: '/images/gown-6.svg' },
 ];
 
 function StatusBadge({ status }: { status: UnitStatus }) {
@@ -223,13 +224,32 @@ export default function Inventory() {
             {filteredUnits.map((unit) => (
               <div
                 key={unit.sku}
-                style={{ background: 'white', borderRadius: '2px', padding: '1.5rem', boxShadow: '0 1px 10px rgba(0,0,0,0.05)', transition: 'box-shadow 0.2s', cursor: 'pointer' }}
+                style={{ background: 'white', borderRadius: '2px', overflow: 'hidden', boxShadow: '0 1px 10px rgba(0,0,0,0.05)', transition: 'box-shadow 0.2s', cursor: 'pointer' }}
                 onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)'; }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 1px 10px rgba(0,0,0,0.05)'; }}
                 onClick={() => handleEdit(unit)}
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
-                  <div>
+                {/* Gown photo */}
+                <div style={{ height: '220px', overflow: 'hidden', background: '#f9f6f1', position: 'relative' }}>
+                  {unit.image ? (
+                    <img
+                      src={unit.image}
+                      alt={unit.gown_name}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+                    />
+                  ) : (
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #f5f0ea 0%, #ede5d8 100%)' }}>
+                      <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.7rem', color: '#c9a96e', letterSpacing: '0.1em', textTransform: 'uppercase' }}>No Image</span>
+                    </div>
+                  )}
+                  <div style={{ position: 'absolute', top: '0.75rem', [isRtl ? 'left' : 'right']: '0.75rem' }}>
+                    <StatusBadge status={unit.status} />
+                  </div>
+                </div>
+
+                <div style={{ padding: '1.25rem 1.5rem' }}>
+                  <div style={{ marginBottom: '1rem' }}>
                     <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.7rem', color: '#c9a96e', letterSpacing: '0.15em', fontWeight: 600, textTransform: 'uppercase', display: 'block', marginBottom: '4px' }}>
                       {unit.sku}
                     </span>
@@ -237,29 +257,28 @@ export default function Inventory() {
                       {unit.gown_name}
                     </h3>
                   </div>
-                  <StatusBadge status={unit.status} />
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem 1rem', marginBottom: '1rem' }}>
-                  {[
-                    { label: t('inventory.designer'), value: unit.designer },
-                    { label: t('inventory.category'), value: unit.category },
-                    { label: t('inventory.size'), value: unit.size },
-                    { label: t('inventory.color'), value: unit.color },
-                  ].map((item) => (
-                    <div key={item.label}>
-                      <span style={{ fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-body)', fontSize: '0.7rem', color: '#aaa', textTransform: 'uppercase', letterSpacing: '0.08em', display: 'block' }}>{item.label}</span>
-                      <span style={{ fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-body)', fontSize: '0.85rem', color: '#555' }}>{item.value}</span>
-                    </div>
-                  ))}
-                </div>
-                <div style={{ borderTop: '1px solid #f0f0f0', paddingTop: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <div>
-                    <span style={{ fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-sans)', fontWeight: 700, fontSize: '1.1rem', color: 'var(--color-dark)' }}>
-                      {formatCurrency(unit.rental_price, lang)}
-                    </span>
-                    <span style={{ fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-body)', fontSize: '0.75rem', color: '#aaa', marginInlineStart: '4px' }}>{t('inventory.perRental')}</span>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem 1rem', marginBottom: '1rem' }}>
+                    {[
+                      { label: t('inventory.designer'), value: unit.designer },
+                      { label: t('inventory.category'), value: unit.category },
+                      { label: t('inventory.size'), value: unit.size },
+                      { label: t('inventory.color'), value: unit.color },
+                    ].map((item) => (
+                      <div key={item.label}>
+                        <span style={{ fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-body)', fontSize: '0.7rem', color: '#aaa', textTransform: 'uppercase', letterSpacing: '0.08em', display: 'block' }}>{item.label}</span>
+                        <span style={{ fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-body)', fontSize: '0.85rem', color: '#555' }}>{item.value}</span>
+                      </div>
+                    ))}
                   </div>
-                  <ConditionDots rating={unit.condition_rating} />
+                  <div style={{ borderTop: '1px solid #f0f0f0', paddingTop: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div>
+                      <span style={{ fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-sans)', fontWeight: 700, fontSize: '1.1rem', color: 'var(--color-dark)' }}>
+                        {formatCurrency(unit.rental_price, lang)}
+                      </span>
+                      <span style={{ fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-body)', fontSize: '0.75rem', color: '#aaa', marginInlineStart: '4px' }}>{t('inventory.perRental')}</span>
+                    </div>
+                    <ConditionDots rating={unit.condition_rating} />
+                  </div>
                 </div>
               </div>
             ))}

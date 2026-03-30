@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="500" viewBox="0 0 400 500">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a2035"/>
+      <stop offset="100%" stop-color="#0d1525"/>
+    </linearGradient>
+    <linearGradient id="gown2" x1="0" y1="0" x2="0.2" y2="1">
+      <stop offset="0%" stop-color="#2a3a6a"/>
+      <stop offset="100%" stop-color="#162248"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="500" fill="url(#bg2)"/>
+  <!-- Gown silhouette - Evening column -->
+  <ellipse cx="200" cy="115" rx="30" ry="38" fill="#2a3a6a" opacity="0.7"/>
+  <path d="M170 145 Q162 175 158 220 Q154 280 155 360 Q155 410 200 415 Q245 410 245 360 Q246 280 242 220 Q238 175 230 145 Z" fill="url(#gown2)" stroke="#5b7fd6" stroke-width="1" opacity="0.9"/>
+  <!-- Embellishment -->
+  <path d="M180 180 Q200 175 220 180 Q215 190 200 192 Q185 190 180 180Z" fill="#c9a96e" opacity="0.3"/>
+  <!-- Sequin dots on bodice -->
+  <circle cx="190" cy="170" r="1.5" fill="#c9a96e" opacity="0.6"/>
+  <circle cx="200" cy="167" r="1.5" fill="#c9a96e" opacity="0.6"/>
+  <circle cx="210" cy="170" r="1.5" fill="#c9a96e" opacity="0.6"/>
+  <circle cx="195" cy="178" r="1.5" fill="#c9a96e" opacity="0.5"/>
+  <circle cx="205" cy="178" r="1.5" fill="#c9a96e" opacity="0.5"/>
+  <!-- Label -->
+  <text x="200" y="455" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#c9a96e" letter-spacing="2">ES-CEL-03</text>
+  <text x="200" y="473" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#8899cc" letter-spacing="1" opacity="0.7">NAVY · SIZE 8</text>
+</svg>

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="500" viewBox="0 0 400 500">
+  <defs>
+    <linearGradient id="bg5" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fdf0f3"/>
+      <stop offset="100%" stop-color="#f5e0e5"/>
+    </linearGradient>
+    <linearGradient id="gown5" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#f0c8d0"/>
+      <stop offset="100%" stop-color="#d8a0b0"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="500" fill="url(#bg5)"/>
+  <!-- Column / Sheath silhouette -->
+  <ellipse cx="200" cy="114" rx="30" ry="37" fill="#d8a0b0" opacity="0.5"/>
+  <path d="M172 144 Q165 170 162 210 Q158 270 158 360 Q158 408 200 412 Q242 408 242 360 Q242 270 238 210 Q235 170 228 144 Z" fill="url(#gown5)" stroke="#c9a96e" stroke-width="1" opacity="0.9"/>
+  <!-- Train -->
+  <path d="M175 400 Q170 430 165 455 Q185 460 200 460 Q215 460 235 455 Q230 430 225 400 Z" fill="#d8a0b0" opacity="0.5"/>
+  <!-- Floral applique -->
+  <circle cx="200" cy="168" r="8" fill="#c9a96e" opacity="0.2"/>
+  <circle cx="200" cy="168" r="4" fill="#c9a96e" opacity="0.35"/>
+  <circle cx="192" cy="162" r="3" fill="#c9a96e" opacity="0.25"/>
+  <circle cx="208" cy="162" r="3" fill="#c9a96e" opacity="0.25"/>
+  <circle cx="192" cy="175" r="3" fill="#c9a96e" opacity="0.25"/>
+  <circle cx="208" cy="175" r="3" fill="#c9a96e" opacity="0.25"/>
+  <!-- Draped lines -->
+  <path d="M168 220 Q185 240 175 300" fill="none" stroke="#c9a96e" stroke-width="0.8" opacity="0.2"/>
+  <path d="M232 220 Q215 240 225 300" fill="none" stroke="#c9a96e" stroke-width="0.8" opacity="0.2"/>
+  <!-- Label -->
+  <text x="200" y="462" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#a07840" letter-spacing="2">ML-ELG-04</text>
+  <text x="200" y="480" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#b8956a" letter-spacing="1" opacity="0.7">BLUSH · SIZE 10</text>
+</svg>

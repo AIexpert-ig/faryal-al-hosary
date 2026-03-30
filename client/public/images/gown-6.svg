@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="500" viewBox="0 0 400 500">
+  <defs>
+    <linearGradient id="bg6" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#faf6f0"/>
+      <stop offset="100%" stop-color="#ede5d8"/>
+    </linearGradient>
+    <linearGradient id="gown6" x1="0.1" y1="0" x2="0.4" y2="1">
+      <stop offset="0%" stop-color="#f5f0e8"/>
+      <stop offset="100%" stop-color="#e2d5be"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="500" fill="url(#bg6)"/>
+  <!-- A-Line variant - with cape/sleeve detail -->
+  <ellipse cx="200" cy="118" rx="30" ry="37" fill="#e2d5be" opacity="0.65"/>
+  <!-- Cape sleeves -->
+  <path d="M170 145 Q140 160 125 185 Q140 182 160 175 Q162 178 165 190" fill="#e2d5be" stroke="#c9a96e" stroke-width="0.8" opacity="0.6"/>
+  <path d="M230 145 Q260 160 275 185 Q260 182 240 175 Q238 178 235 190" fill="#e2d5be" stroke="#c9a96e" stroke-width="0.8" opacity="0.6"/>
+  <!-- Main gown -->
+  <path d="M165 148 Q157 172 148 202 Q132 242 102 385 Q102 422 200 422 Q298 422 298 385 Q268 242 252 202 Q243 172 235 148 Z" fill="url(#gown6)" stroke="#c9a96e" stroke-width="1" opacity="0.88"/>
+  <!-- Lace overlay -->
+  <path d="M167 152 Q200 144 233 152 Q230 193 200 198 Q170 193 167 152Z" fill="none" stroke="#c9a96e" stroke-width="0.8" opacity="0.3"/>
+  <!-- Skirt gathers -->
+  <path d="M178 255 Q162 330 142 395" fill="none" stroke="#c9a96e" stroke-width="0.7" opacity="0.25"/>
+  <path d="M222 255 Q238 330 258 395" fill="none" stroke="#c9a96e" stroke-width="0.7" opacity="0.25"/>
+  <!-- Label -->
+  <text x="200" y="460" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#a07840" letter-spacing="2">VW-KAT-02</text>
+  <text x="200" y="478" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#b8956a" letter-spacing="1" opacity="0.7">IVORY · SIZE 10</text>
+</svg>

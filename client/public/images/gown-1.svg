@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="500" viewBox="0 0 400 500">
+  <rect width="400" height="500" fill="#f5f0ea"/>
+  <rect width="400" height="500" fill="url(#bg1)"/>
+  <defs>
+    <linearGradient id="bg1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#faf6f0"/>
+      <stop offset="100%" stop-color="#ede5d8"/>
+    </linearGradient>
+    <linearGradient id="gown1" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#f5f0e8"/>
+      <stop offset="100%" stop-color="#e8dcc8"/>
+    </linearGradient>
+  </defs>
+  <!-- Gown silhouette - A-Line -->
+  <ellipse cx="200" cy="120" rx="32" ry="40" fill="#e8dcc8" opacity="0.6"/>
+  <path d="M168 148 Q160 170 148 200 Q136 240 100 380 Q100 420 200 420 Q300 420 300 380 Q264 240 252 200 Q240 170 232 148 Z" fill="url(#gown1)" stroke="#c9a96e" stroke-width="1" opacity="0.9"/>
+  <!-- Waist detail -->
+  <path d="M168 195 Q200 188 232 195" fill="none" stroke="#c9a96e" stroke-width="1.5" opacity="0.7"/>
+  <!-- Bodice pattern dots -->
+  <circle cx="192" cy="165" r="2" fill="#c9a96e" opacity="0.4"/>
+  <circle cx="200" cy="172" r="2" fill="#c9a96e" opacity="0.4"/>
+  <circle cx="208" cy="165" r="2" fill="#c9a96e" opacity="0.4"/>
+  <!-- Skirt flow lines -->
+  <path d="M175 250 Q160 320 140 390" fill="none" stroke="#c9a96e" stroke-width="0.8" opacity="0.3"/>
+  <path d="M225 250 Q240 320 260 390" fill="none" stroke="#c9a96e" stroke-width="0.8" opacity="0.3"/>
+  <!-- Label -->
+  <text x="200" y="460" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#a07840" letter-spacing="2">VW-KAT-01</text>
+  <text x="200" y="478" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#b8956a" letter-spacing="1" opacity="0.7">IVORY · SIZE 6</text>
+</svg>
