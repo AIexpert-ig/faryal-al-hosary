@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Cairo:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -9,7 +9,16 @@
   --font-sans: 'Manrope', sans-serif;
   --font-serif: 'Playfair Display', serif;
   --font-body: 'DM Sans', sans-serif;
+  --font-arabic: 'Cairo', sans-serif;
 }
+
+/* Arabic / RTL overrides */
+[dir="rtl"] body,
+[dir="rtl"] {
+  font-family: var(--font-arabic);
+}
+[dir="rtl"] .font-sans,
+[dir="rtl"] .font-body { font-family: var(--font-arabic); }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 

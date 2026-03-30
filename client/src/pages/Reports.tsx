@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { TrendingUp, Package, Calendar } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import Navbar from '../components/Navbar';
+import { formatCurrency, formatNumber } from '../utils/format';
 
 const API_BASE = import.meta.env.VITE_API_URL ?? '';
 
@@ -28,26 +30,26 @@ interface ScheduledEvent {
 }
 
 const demoRevenue: RevenueData[] = [
-  { month: 'Jan', amount: 12500, rentals: 10 },
-  { month: 'Feb', amount: 14200, rentals: 12 },
-  { month: 'Mar', amount: 18800, rentals: 16 },
-  { month: 'Apr', amount: 22100, rentals: 19 },
-  { month: 'May', amount: 28500, rentals: 24 },
-  { month: 'Jun', amount: 31200, rentals: 27 },
-  { month: 'Jul', amount: 26400, rentals: 22 },
-  { month: 'Aug', amount: 29800, rentals: 25 },
-  { month: 'Sep', amount: 24600, rentals: 21 },
-  { month: 'Oct', amount: 32000, rentals: 28 },
-  { month: 'Nov', amount: 27500, rentals: 23 },
-  { month: 'Dec', amount: 35000, rentals: 30 },
+  { month: 'Jan', amount: 125000, rentals: 10 },
+  { month: 'Feb', amount: 142000, rentals: 12 },
+  { month: 'Mar', amount: 188000, rentals: 16 },
+  { month: 'Apr', amount: 221000, rentals: 19 },
+  { month: 'May', amount: 285000, rentals: 24 },
+  { month: 'Jun', amount: 312000, rentals: 27 },
+  { month: 'Jul', amount: 264000, rentals: 22 },
+  { month: 'Aug', amount: 298000, rentals: 25 },
+  { month: 'Sep', amount: 246000, rentals: 21 },
+  { month: 'Oct', amount: 320000, rentals: 28 },
+  { month: 'Nov', amount: 275000, rentals: 23 },
+  { month: 'Dec', amount: 350000, rentals: 30 },
 ];
 
 const demoPopularGowns: PopularGown[] = [
-  { rank: 1, gown_name: 'Katherine A-Line', sku: 'VW-KAT-01', designer: 'Vera Wang', total_rentals: 28, revenue: 33600 },
-  { rank: 2, gown_name: 'Amara Ball Gown', sku: 'ZM-AMA-02', designer: 'Zuhair Murad', total_rentals: 24, revenue: 36000 },
-  { rank: 3, gown_name: 'Celeste Evening', sku: 'ES-CEL-03', designer: 'Elie Saab', total_rentals: 21, revenue: 20580 },
-  { rank: 4, gown_name: 'Elegance Column', sku: 'ML-ELG-04', designer: 'Monique Lhuillier', total_rentals: 19, revenue: 20900 },
-  { rank: 5, gown_name: 'Isabella Cocktail', sku: 'OLR-ISA-01', designer: 'Oscar de la Renta', total_rentals: 17, revenue: 12750 },
+  { rank: 1, gown_name: 'Katherine A-Line', sku: 'VW-KAT-01', designer: 'Vera Wang', total_rentals: 28, revenue: 336000 },
+  { rank: 2, gown_name: 'Amara Ball Gown', sku: 'ZM-AMA-02', designer: 'Zuhair Murad', total_rentals: 24, revenue: 360000 },
+  { rank: 3, gown_name: 'Celeste Evening', sku: 'ES-CEL-03', designer: 'Elie Saab', total_rentals: 21, revenue: 205800 },
+  { rank: 4, gown_name: 'Elegance Column', sku: 'ML-ELG-04', designer: 'Monique Lhuillier', total_rentals: 19, revenue: 209000 },
+  { rank: 5, gown_name: 'Isabella Cocktail', sku: 'OLR-ISA-01', designer: 'Oscar de la Renta', total_rentals: 17, revenue: 127500 },
 ];
 
 const demoPickups: ScheduledEvent[] = [
@@ -60,6 +62,10 @@ const demoReturns: ScheduledEvent[] = [
 ];
 
 export default function Reports() {
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
+  const isRtl = lang === 'ar';
+
   const [revenue, setRevenue] = useState<RevenueData[]>([]);
   const [popularGowns, setPopularGowns] = useState<PopularGown[]>([]);
   const [pickups, setPickups] = useState<ScheduledEvent[]>([]);
@@ -102,40 +108,48 @@ export default function Reports() {
   const totalRevenue = revenue.reduce((sum, r) => sum + r.amount, 0);
   const totalRentals = revenue.reduce((sum, r) => sum + r.rentals, 0);
 
+  const tableHeaders = [
+    t('reports.rank'),
+    t('reports.gown'),
+    t('reports.designer'),
+    t('reports.rentals'),
+    t('reports.revenue'),
+  ];
+
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--color-bg)' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--color-bg)', direction: isRtl ? 'rtl' : 'ltr' }}>
       <Navbar />
 
       <div style={{ padding: '2.5rem 3rem', maxWidth: '1400px', margin: '0 auto' }}>
         <div style={{ marginBottom: '2.5rem' }}>
-          <h1 style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '1.75rem', color: 'var(--color-dark)', marginBottom: '0.25rem' }}>
-            Reports
+          <h1 style={{ fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-sans)', fontWeight: 700, fontSize: '1.75rem', color: 'var(--color-dark)', marginBottom: '0.25rem' }}>
+            {t('reports.title')}
           </h1>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.875rem', color: '#888' }}>
-            Business overview and analytics
+          <p style={{ fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-body)', fontSize: '0.875rem', color: '#888' }}>
+            {t('reports.subtitle')}
           </p>
         </div>
 
         {loading ? (
-          <div style={{ display: 'flex', justifyContent: 'center', padding: '4rem', fontFamily: 'var(--font-body)', color: '#888' }}>
-            Loading reports...
+          <div style={{ display: 'flex', justifyContent: 'center', padding: '4rem', fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-body)', color: '#888' }}>
+            {t('reports.loading')}
           </div>
         ) : (
           <>
             {/* Summary stats */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', marginBottom: '2.5rem' }}>
               {[
-                { icon: <TrendingUp size={20} color="white" />, label: 'Annual Revenue', value: `$${(totalRevenue / 1000).toFixed(0)}k`, color: '#0d1310' },
-                { icon: <Package size={20} color="white" />, label: 'Total Rentals', value: totalRentals, color: '#2a6049' },
-                { icon: <Calendar size={20} color="white" />, label: "Today's Events", value: pickups.length + returns.length, color: '#c9a96e' },
+                { icon: <TrendingUp size={20} color="white" />, label: t('reports.totalRevenue'), value: formatCurrency(totalRevenue, lang), color: '#0d1310' },
+                { icon: <Package size={20} color="white" />, label: t('reports.totalRentals'), value: formatNumber(totalRentals, lang), color: '#2a6049' },
+                { icon: <Calendar size={20} color="white" />, label: t('dashboard.schedule'), value: formatNumber(pickups.length + returns.length, lang), color: '#c9a96e' },
               ].map((item) => (
                 <div key={item.label} style={{ background: 'white', padding: '1.75rem 2rem', borderRadius: '2px', boxShadow: '0 1px 10px rgba(0,0,0,0.06)', display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
                   <div style={{ width: '44px', height: '44px', background: item.color, borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     {item.icon}
                   </div>
                   <div>
-                    <div style={{ fontFamily: 'var(--font-sans)', fontWeight: 800, fontSize: '1.75rem', color: 'var(--color-dark)', lineHeight: 1 }}>{item.value}</div>
-                    <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: '#888', marginTop: '0.25rem' }}>{item.label}</div>
+                    <div style={{ fontFamily: 'var(--font-sans)', fontWeight: 800, fontSize: '1.5rem', color: 'var(--color-dark)', lineHeight: 1 }}>{item.value}</div>
+                    <div style={{ fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-body)', fontSize: '0.8rem', color: '#888', marginTop: '0.25rem' }}>{item.label}</div>
                   </div>
                 </div>
               ))}
@@ -144,20 +158,18 @@ export default function Reports() {
             {/* Revenue chart */}
             <div style={{ background: 'white', padding: '2rem', borderRadius: '2px', boxShadow: '0 1px 10px rgba(0,0,0,0.06)', marginBottom: '2.5rem' }}>
               <div style={{ marginBottom: '1.5rem' }}>
-                <h3 style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '1.1rem', color: 'var(--color-dark)', marginBottom: '0.25rem' }}>
-                  Monthly Revenue — {new Date().getFullYear()}
+                <h3 style={{ fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-sans)', fontWeight: 700, fontSize: '1.1rem', color: 'var(--color-dark)', marginBottom: '0.25rem' }}>
+                  {t('reports.monthlyRevenue')} — {new Date().getFullYear()}
                 </h3>
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: '#888' }}>
-                  Revenue and rental volume by month
-                </p>
               </div>
 
               <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-end', height: '200px', paddingBottom: '0.5rem' }}>
                 {revenue.map((r) => {
                   const pct = (r.amount / maxRevenue) * 100;
+                  const barLabel = formatCurrency(r.amount, lang);
                   return (
                     <div key={r.month} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', height: '100%', justifyContent: 'flex-end' }}>
-                      <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem', color: '#888' }}>${(r.amount / 1000).toFixed(0)}k</span>
+                      <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.6rem', color: '#888', whiteSpace: 'nowrap' }}>{barLabel}</span>
                       <div
                         style={{
                           width: '100%',
@@ -168,7 +180,7 @@ export default function Reports() {
                           transition: 'height 0.5s ease',
                           position: 'relative',
                         }}
-                        title={`${r.month}: $${r.amount.toLocaleString()}`}
+                        title={`${r.month}: ${barLabel}`}
                       >
                         <div
                           style={{
@@ -191,11 +203,11 @@ export default function Reports() {
               <div style={{ display: 'flex', gap: '1.5rem', marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid #f0f0f0' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <div style={{ width: '12px', height: '12px', background: '#0d1310', borderRadius: '2px' }} />
-                  <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem', color: '#888' }}>Revenue</span>
+                  <span style={{ fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-body)', fontSize: '0.75rem', color: '#888' }}>{t('reports.revenue')}</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <div style={{ width: '12px', height: '12px', background: 'rgba(201,169,110,0.6)', borderRadius: '2px' }} />
-                  <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem', color: '#888' }}>Rental Volume</span>
+                  <span style={{ fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-body)', fontSize: '0.75rem', color: '#888' }}>{t('reports.rentals')}</span>
                 </div>
               </div>
             </div>
@@ -205,15 +217,15 @@ export default function Reports() {
               {/* Popular gowns table */}
               <div style={{ background: 'white', borderRadius: '2px', boxShadow: '0 1px 10px rgba(0,0,0,0.06)', overflow: 'hidden' }}>
                 <div style={{ padding: '1.5rem 2rem', borderBottom: '1px solid #f0f0f0' }}>
-                  <h3 style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '1rem', color: 'var(--color-dark)' }}>
-                    Most Popular Gowns
+                  <h3 style={{ fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-sans)', fontWeight: 700, fontSize: '1rem', color: 'var(--color-dark)' }}>
+                    {t('reports.popularGowns')}
                   </h3>
                 </div>
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <thead>
                     <tr style={{ background: '#fafafa', borderBottom: '1px solid #f0f0f0' }}>
-                      {['#', 'Gown', 'Designer', 'Rentals', 'Revenue'].map((h) => (
-                        <th key={h} style={{ padding: '0.75rem 1.25rem', textAlign: 'left', fontFamily: 'var(--font-body)', fontSize: '0.65rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#aaa' }}>
+                      {tableHeaders.map((h) => (
+                        <th key={h} style={{ padding: '0.75rem 1.25rem', textAlign: isRtl ? 'right' : 'left', fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-body)', fontSize: '0.65rem', fontWeight: 600, letterSpacing: isRtl ? '0' : '0.12em', textTransform: isRtl ? 'none' : 'uppercase', color: '#aaa' }}>
                           {h}
                         </th>
                       ))}
@@ -226,16 +238,16 @@ export default function Reports() {
                         onMouseLeave={(e) => { (e.currentTarget as HTMLTableRowElement).style.background = 'white'; }}
                       >
                         <td style={{ padding: '0.875rem 1.25rem', fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '0.875rem', color: gown.rank <= 3 ? '#c9a96e' : '#ccc' }}>
-                          {gown.rank}
+                          {formatNumber(gown.rank, lang)}
                         </td>
                         <td style={{ padding: '0.875rem 1.25rem' }}>
                           <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.875rem', color: 'var(--color-dark)', fontWeight: 600 }}>{gown.gown_name}</div>
                           <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.7rem', color: '#c9a96e' }}>{gown.sku}</div>
                         </td>
-                        <td style={{ padding: '0.875rem 1.25rem', fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: '#888' }}>{gown.designer}</td>
-                        <td style={{ padding: '0.875rem 1.25rem', fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '0.875rem', color: 'var(--color-dark)' }}>{gown.total_rentals}</td>
+                        <td style={{ padding: '0.875rem 1.25rem', fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-body)', fontSize: '0.8rem', color: '#888' }}>{gown.designer}</td>
+                        <td style={{ padding: '0.875rem 1.25rem', fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '0.875rem', color: 'var(--color-dark)' }}>{formatNumber(gown.total_rentals, lang)}</td>
                         <td style={{ padding: '0.875rem 1.25rem', fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '0.875rem', color: '#22c55e' }}>
-                          ${gown.revenue.toLocaleString()}
+                          {formatCurrency(gown.revenue, lang)}
                         </td>
                       </tr>
                     ))}
@@ -249,15 +261,15 @@ export default function Reports() {
                 <div style={{ background: 'white', borderRadius: '2px', boxShadow: '0 1px 10px rgba(0,0,0,0.06)', overflow: 'hidden', flex: 1 }}>
                   <div style={{ padding: '1.25rem 1.5rem', borderBottom: '1px solid #f0f0f0', background: 'rgba(201,169,110,0.06)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#c9a96e' }} />
-                    <h4 style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '0.875rem', color: 'var(--color-dark)' }}>
-                      Today's Pickups ({pickups.length})
+                    <h4 style={{ fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-sans)', fontWeight: 700, fontSize: '0.875rem', color: 'var(--color-dark)' }}>
+                      {t('reports.todaysPickups')} ({formatNumber(pickups.length, lang)})
                     </h4>
                   </div>
                   {pickups.length === 0 ? (
-                    <div style={{ padding: '1.5rem', fontFamily: 'var(--font-body)', fontSize: '0.875rem', color: '#aaa', textAlign: 'center' }}>None today</div>
+                    <div style={{ padding: '1.5rem', fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-body)', fontSize: '0.875rem', color: '#aaa', textAlign: 'center' }}>{t('reports.noPickups')}</div>
                   ) : pickups.map((p, i) => (
                     <div key={i} style={{ padding: '0.875rem 1.5rem', borderBottom: i < pickups.length - 1 ? '1px solid #f9f9f9' : 'none' }}>
-                      <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.875rem', color: 'var(--color-dark)', fontWeight: 600 }}>{p.customer_name}</div>
+                      <div style={{ fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-body)', fontSize: '0.875rem', color: 'var(--color-dark)', fontWeight: 600 }}>{p.customer_name}</div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2px' }}>
                         <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem', color: '#c9a96e' }}>{p.gown_sku}</span>
                         <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem', color: '#888' }}>{p.time}</span>
@@ -270,15 +282,15 @@ export default function Reports() {
                 <div style={{ background: 'white', borderRadius: '2px', boxShadow: '0 1px 10px rgba(0,0,0,0.06)', overflow: 'hidden', flex: 1 }}>
                   <div style={{ padding: '1.25rem 1.5rem', borderBottom: '1px solid #f0f0f0', background: 'rgba(34,197,94,0.06)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#22c55e' }} />
-                    <h4 style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '0.875rem', color: 'var(--color-dark)' }}>
-                      Today's Returns ({returns.length})
+                    <h4 style={{ fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-sans)', fontWeight: 700, fontSize: '0.875rem', color: 'var(--color-dark)' }}>
+                      {t('reports.todaysReturns')} ({formatNumber(returns.length, lang)})
                     </h4>
                   </div>
                   {returns.length === 0 ? (
-                    <div style={{ padding: '1.5rem', fontFamily: 'var(--font-body)', fontSize: '0.875rem', color: '#aaa', textAlign: 'center' }}>None today</div>
+                    <div style={{ padding: '1.5rem', fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-body)', fontSize: '0.875rem', color: '#aaa', textAlign: 'center' }}>{t('reports.noReturns')}</div>
                   ) : returns.map((r, i) => (
                     <div key={i} style={{ padding: '0.875rem 1.5rem', borderBottom: i < returns.length - 1 ? '1px solid #f9f9f9' : 'none' }}>
-                      <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.875rem', color: 'var(--color-dark)', fontWeight: 600 }}>{r.customer_name}</div>
+                      <div style={{ fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-body)', fontSize: '0.875rem', color: 'var(--color-dark)', fontWeight: 600 }}>{r.customer_name}</div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2px' }}>
                         <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem', color: '#22c55e' }}>{r.gown_sku}</span>
                         <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem', color: '#888' }}>{r.time}</span>

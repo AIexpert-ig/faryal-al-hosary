@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Search, Plus, X, Filter } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import Navbar from '../components/Navbar';
+import { formatCurrency } from '../utils/format';
 
 const API_BASE = import.meta.env.VITE_API_URL ?? '';
 
@@ -35,32 +37,25 @@ const categories = ['Bridal', 'Evening', 'Cocktail', 'Formal', 'Occasion'];
 const designers = ['Vera Wang', 'Elie Saab', 'Zuhair Murad', 'Oscar de la Renta', 'Monique Lhuillier', 'Marchesa', 'Other'];
 
 const emptyUnit: InventoryUnit = {
-  sku: '',
-  gown_name: '',
-  designer: '',
-  size: '',
-  color: '',
-  status: 'Available',
-  rental_price: 0,
-  condition_rating: 10,
-  category: 'Bridal',
-  notes: '',
+  sku: '', gown_name: '', designer: '', size: '', color: '',
+  status: 'Available', rental_price: 0, condition_rating: 10, category: 'Bridal', notes: '',
 };
 
 const demoUnits: InventoryUnit[] = [
-  { id: 1, sku: 'VW-KAT-01', gown_name: 'Katherine A-Line', designer: 'Vera Wang', size: '6', color: 'Ivory', status: 'Available', rental_price: 1200, condition_rating: 10, category: 'Bridal' },
-  { id: 2, sku: 'ES-CEL-03', gown_name: 'Celeste Evening', designer: 'Elie Saab', size: '8', color: 'Navy', status: 'Rented', rental_price: 980, condition_rating: 9, category: 'Evening' },
-  { id: 3, sku: 'ZM-AMA-02', gown_name: 'Amara Ball Gown', designer: 'Zuhair Murad', size: '4', color: 'White', status: 'Available', rental_price: 1500, condition_rating: 10, category: 'Bridal' },
-  { id: 4, sku: 'OLR-ISA-01', gown_name: 'Isabella Cocktail', designer: 'Oscar de la Renta', size: '6', color: 'Champagne', status: 'Cleaning', rental_price: 750, condition_rating: 8, category: 'Cocktail' },
-  { id: 5, sku: 'ML-ELG-04', gown_name: 'Elegance Column', designer: 'Monique Lhuillier', size: '10', color: 'Blush', status: 'Reserved', rental_price: 1100, condition_rating: 9, category: 'Bridal' },
-  { id: 6, sku: 'VW-KAT-02', gown_name: 'Katherine A-Line', designer: 'Vera Wang', size: '10', color: 'Ivory', status: 'Available', rental_price: 1200, condition_rating: 10, category: 'Bridal' },
+  { id: 1, sku: 'VW-KAT-01', gown_name: 'Katherine A-Line', designer: 'Vera Wang', size: '6', color: 'Ivory', status: 'Available', rental_price: 25000, condition_rating: 10, category: 'Bridal' },
+  { id: 2, sku: 'ES-CEL-03', gown_name: 'Celeste Evening', designer: 'Elie Saab', size: '8', color: 'Navy', status: 'Rented', rental_price: 20000, condition_rating: 9, category: 'Evening' },
+  { id: 3, sku: 'ZM-AMA-02', gown_name: 'Amara Ball Gown', designer: 'Zuhair Murad', size: '4', color: 'White', status: 'Available', rental_price: 32000, condition_rating: 10, category: 'Bridal' },
+  { id: 4, sku: 'OLR-ISA-01', gown_name: 'Isabella Cocktail', designer: 'Oscar de la Renta', size: '6', color: 'Champagne', status: 'Cleaning', rental_price: 15000, condition_rating: 8, category: 'Cocktail' },
+  { id: 5, sku: 'ML-ELG-04', gown_name: 'Elegance Column', designer: 'Monique Lhuillier', size: '10', color: 'Blush', status: 'Reserved', rental_price: 22000, condition_rating: 9, category: 'Bridal' },
+  { id: 6, sku: 'VW-KAT-02', gown_name: 'Katherine A-Line', designer: 'Vera Wang', size: '10', color: 'Ivory', status: 'Available', rental_price: 25000, condition_rating: 10, category: 'Bridal' },
 ];
 
 function StatusBadge({ status }: { status: UnitStatus }) {
+  const { t } = useTranslation();
   const colors = statusColors[status] ?? { bg: 'rgba(156,163,175,0.12)', text: '#374151' };
   return (
     <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '0.25rem 0.6rem', borderRadius: '2px', background: colors.bg, color: colors.text }}>
-      {status}
+      {t(`status.${status}`, status)}
     </span>
   );
 }
@@ -76,6 +71,10 @@ function ConditionDots({ rating }: { rating: number }) {
 }
 
 export default function Inventory() {
+  const { t, i18n } = useTranslation();
+  const isRtl = i18n.language === 'ar';
+  const lang = i18n.language;
+
   const [units, setUnits] = useState<InventoryUnit[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -123,18 +122,15 @@ export default function Inventory() {
       setFormData(emptyUnit);
       await fetchUnits();
     } catch {
-      setFormError('Failed to save. Please try again.');
+      setFormError(t('inventory.failedSave'));
     }
     setSaving(false);
   };
 
-  const handleEdit = (unit: InventoryUnit) => {
-    setFormData(unit);
-    setShowForm(true);
-  };
+  const handleEdit = (unit: InventoryUnit) => { setFormData(unit); setShowForm(true); };
 
   const inputStyle: React.CSSProperties = {
-    fontFamily: 'var(--font-body)',
+    fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-body)',
     fontSize: '0.875rem',
     color: 'var(--color-dark)',
     background: '#f9f9f9',
@@ -143,55 +139,58 @@ export default function Inventory() {
     padding: '0.625rem 0.875rem',
     width: '100%',
     outline: 'none',
+    textAlign: isRtl ? 'right' : 'left',
+    direction: isRtl ? 'rtl' : 'ltr',
   };
 
   const labelStyle: React.CSSProperties = {
-    fontFamily: 'var(--font-body)',
+    fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-body)',
     fontSize: '0.75rem',
     fontWeight: 600,
-    letterSpacing: '0.08em',
-    textTransform: 'uppercase',
+    letterSpacing: isRtl ? '0' : '0.08em',
+    textTransform: isRtl ? 'none' : 'uppercase',
     color: '#888',
     display: 'block',
     marginBottom: '0.375rem',
+    textAlign: isRtl ? 'right' : 'left',
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--color-bg)' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--color-bg)', direction: isRtl ? 'rtl' : 'ltr', fontFamily: isRtl ? 'var(--font-arabic)' : undefined }}>
       <Navbar />
 
       <div style={{ padding: '2.5rem 3rem', maxWidth: '1400px', margin: '0 auto' }}>
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2rem' }}>
           <div>
-            <h1 style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '1.75rem', color: 'var(--color-dark)', marginBottom: '0.25rem' }}>
-              Inventory
+            <h1 style={{ fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-sans)', fontWeight: 700, fontSize: '1.75rem', color: 'var(--color-dark)', marginBottom: '0.25rem' }}>
+              {t('inventory.title')}
             </h1>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.875rem', color: '#888' }}>
-              {units.length} units in collection
+            <p style={{ fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-body)', fontSize: '0.875rem', color: '#888' }}>
+              {t('inventory.subtitle_other', { count: units.length })}
             </p>
           </div>
           <button
             onClick={() => { setFormData(emptyUnit); setShowForm(true); }}
-            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontFamily: 'var(--font-body)', fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', background: '#0d1310', color: 'white', border: 'none', padding: '0.75rem 1.5rem', cursor: 'pointer', borderRadius: '2px', transition: 'background 0.2s' }}
+            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-body)', fontSize: '0.8rem', fontWeight: 600, letterSpacing: isRtl ? '0' : '0.1em', textTransform: isRtl ? 'none' : 'uppercase', background: '#0d1310', color: 'white', border: 'none', padding: '0.75rem 1.5rem', cursor: 'pointer', borderRadius: '2px' }}
             onMouseEnter={(e) => { e.currentTarget.style.background = '#1a2a24'; }}
             onMouseLeave={(e) => { e.currentTarget.style.background = '#0d1310'; }}
           >
             <Plus size={16} />
-            Add New Unit
+            {t('inventory.addNew')}
           </button>
         </div>
 
         {/* Filters */}
         <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
           <div style={{ position: 'relative', flex: '1', minWidth: '220px' }}>
-            <Search size={16} color="#aaa" style={{ position: 'absolute', left: '0.875rem', top: '50%', transform: 'translateY(-50%)' }} />
+            <Search size={16} color="#aaa" style={{ position: 'absolute', [isRtl ? 'right' : 'left']: '0.875rem', top: '50%', transform: 'translateY(-50%)' }} />
             <input
               type="text"
-              placeholder="Search gowns, SKU, designer..."
+              placeholder={t('inventory.searchPlaceholder')}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              style={{ ...inputStyle, paddingLeft: '2.5rem' }}
+              style={{ ...inputStyle, [isRtl ? 'paddingRight' : 'paddingLeft']: '2.5rem' }}
             />
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -201,8 +200,8 @@ export default function Inventory() {
               onChange={(e) => setStatusFilter(e.target.value)}
               style={{ ...inputStyle, width: 'auto', cursor: 'pointer' }}
             >
-              <option value="All">All Status</option>
-              {statuses.map((s) => <option key={s} value={s}>{s}</option>)}
+              <option value="All">{t('inventory.allStatus')}</option>
+              {statuses.map((s) => <option key={s} value={s}>{t(`status.${s}`, s)}</option>)}
             </select>
           </div>
           <select
@@ -210,14 +209,14 @@ export default function Inventory() {
             onChange={(e) => setCategoryFilter(e.target.value)}
             style={{ ...inputStyle, width: 'auto', cursor: 'pointer' }}
           >
-            <option value="All">All Categories</option>
+            <option value="All">{t('inventory.allCategories')}</option>
             {categories.map((c) => <option key={c} value={c}>{c}</option>)}
           </select>
         </div>
 
         {loading ? (
-          <div style={{ display: 'flex', justifyContent: 'center', padding: '4rem', fontFamily: 'var(--font-body)', color: '#888' }}>
-            Loading inventory...
+          <div style={{ display: 'flex', justifyContent: 'center', padding: '4rem', fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-body)', color: '#888' }}>
+            {t('inventory.loading')}
           </div>
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1.25rem' }}>
@@ -234,7 +233,7 @@ export default function Inventory() {
                     <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.7rem', color: '#c9a96e', letterSpacing: '0.15em', fontWeight: 600, textTransform: 'uppercase', display: 'block', marginBottom: '4px' }}>
                       {unit.sku}
                     </span>
-                    <h3 style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '1rem', color: 'var(--color-dark)', lineHeight: 1.3 }}>
+                    <h3 style={{ fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-sans)', fontWeight: 700, fontSize: '1rem', color: 'var(--color-dark)', lineHeight: 1.3 }}>
                       {unit.gown_name}
                     </h3>
                   </div>
@@ -242,23 +241,23 @@ export default function Inventory() {
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem 1rem', marginBottom: '1rem' }}>
                   {[
-                    { label: 'Designer', value: unit.designer },
-                    { label: 'Category', value: unit.category },
-                    { label: 'Size', value: unit.size },
-                    { label: 'Color', value: unit.color },
+                    { label: t('inventory.designer'), value: unit.designer },
+                    { label: t('inventory.category'), value: unit.category },
+                    { label: t('inventory.size'), value: unit.size },
+                    { label: t('inventory.color'), value: unit.color },
                   ].map((item) => (
                     <div key={item.label}>
-                      <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.7rem', color: '#aaa', textTransform: 'uppercase', letterSpacing: '0.08em', display: 'block' }}>{item.label}</span>
-                      <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: '#555' }}>{item.value}</span>
+                      <span style={{ fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-body)', fontSize: '0.7rem', color: '#aaa', textTransform: 'uppercase', letterSpacing: '0.08em', display: 'block' }}>{item.label}</span>
+                      <span style={{ fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-body)', fontSize: '0.85rem', color: '#555' }}>{item.value}</span>
                     </div>
                   ))}
                 </div>
                 <div style={{ borderTop: '1px solid #f0f0f0', paddingTop: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div>
-                    <span style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '1.1rem', color: 'var(--color-dark)' }}>
-                      ${unit.rental_price.toLocaleString()}
+                    <span style={{ fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-sans)', fontWeight: 700, fontSize: '1.1rem', color: 'var(--color-dark)' }}>
+                      {formatCurrency(unit.rental_price, lang)}
                     </span>
-                    <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem', color: '#aaa', marginLeft: '4px' }}>/rental</span>
+                    <span style={{ fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-body)', fontSize: '0.75rem', color: '#aaa', marginInlineStart: '4px' }}>{t('inventory.perRental')}</span>
                   </div>
                   <ConditionDots rating={unit.condition_rating} />
                 </div>
@@ -271,21 +270,18 @@ export default function Inventory() {
       {/* Form Modal */}
       {showForm && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
-          <div style={{ background: 'white', width: '100%', maxWidth: '700px', maxHeight: '90vh', overflow: 'auto', borderRadius: '4px', padding: '2.5rem' }}>
+          <div style={{ background: 'white', width: '100%', maxWidth: '700px', maxHeight: '90vh', overflow: 'auto', borderRadius: '4px', padding: '2.5rem', direction: isRtl ? 'rtl' : 'ltr', fontFamily: isRtl ? 'var(--font-arabic)' : undefined }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-              <h2 style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '1.25rem', color: 'var(--color-dark)' }}>
-                {formData.id ? 'Edit Inventory Unit' : 'Add New Unit'}
+              <h2 style={{ fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-sans)', fontWeight: 700, fontSize: '1.25rem', color: 'var(--color-dark)' }}>
+                {formData.id ? t('inventory.editTitle') : t('inventory.addTitle')}
               </h2>
-              <button
-                onClick={() => { setShowForm(false); setFormError(null); }}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#888' }}
-              >
+              <button onClick={() => { setShowForm(false); setFormError(null); }} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#888' }}>
                 <X size={20} />
               </button>
             </div>
 
             {formError && (
-              <div style={{ background: '#fee2e2', border: '1px solid #fca5a5', borderRadius: '4px', padding: '0.75rem 1rem', marginBottom: '1rem', fontFamily: 'var(--font-body)', fontSize: '0.875rem', color: '#991b1b' }}>
+              <div style={{ background: '#fee2e2', border: '1px solid #fca5a5', borderRadius: '4px', padding: '0.75rem 1rem', marginBottom: '1rem', fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-body)', fontSize: '0.875rem', color: '#991b1b' }}>
                 {formError}
               </div>
             )}
@@ -293,12 +289,12 @@ export default function Inventory() {
             <form onSubmit={handleSubmit}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
                 {[
-                  { label: 'SKU', key: 'sku', type: 'text', required: true },
-                  { label: 'Gown Name', key: 'gown_name', type: 'text', required: true },
-                  { label: 'Color', key: 'color', type: 'text', required: true },
-                  { label: 'Size', key: 'size', type: 'text', required: true },
-                  { label: 'Rental Price ($)', key: 'rental_price', type: 'number', required: true },
-                  { label: 'Condition Rating (1-10)', key: 'condition_rating', type: 'number', required: true },
+                  { label: t('inventory.sku'), key: 'sku', type: 'text', required: true },
+                  { label: t('inventory.gownName'), key: 'gown_name', type: 'text', required: true },
+                  { label: t('inventory.color'), key: 'color', type: 'text', required: true },
+                  { label: t('inventory.size'), key: 'size', type: 'text', required: true },
+                  { label: t('inventory.price'), key: 'rental_price', type: 'number', required: true },
+                  { label: t('inventory.conditionRating'), key: 'condition_rating', type: 'number', required: true },
                 ].map((field) => (
                   <div key={field.key}>
                     <label style={labelStyle}>{field.label}</label>
@@ -315,65 +311,45 @@ export default function Inventory() {
                 ))}
 
                 <div>
-                  <label style={labelStyle}>Designer</label>
-                  <select
-                    value={formData.designer}
-                    onChange={(e) => setFormData((prev) => ({ ...prev, designer: e.target.value }))}
-                    style={{ ...inputStyle, cursor: 'pointer' }}
-                  >
-                    <option value="">Select Designer</option>
+                  <label style={labelStyle}>{t('inventory.designer')}</label>
+                  <select value={formData.designer} onChange={(e) => setFormData((prev) => ({ ...prev, designer: e.target.value }))} style={{ ...inputStyle, cursor: 'pointer' }}>
+                    <option value="">{t('inventory.selectDesigner')}</option>
                     {designers.map((d) => <option key={d} value={d}>{d}</option>)}
                   </select>
                 </div>
 
                 <div>
-                  <label style={labelStyle}>Category</label>
-                  <select
-                    value={formData.category}
-                    onChange={(e) => setFormData((prev) => ({ ...prev, category: e.target.value }))}
-                    style={{ ...inputStyle, cursor: 'pointer' }}
-                  >
+                  <label style={labelStyle}>{t('inventory.category')}</label>
+                  <select value={formData.category} onChange={(e) => setFormData((prev) => ({ ...prev, category: e.target.value }))} style={{ ...inputStyle, cursor: 'pointer' }}>
                     {categories.map((c) => <option key={c} value={c}>{c}</option>)}
                   </select>
                 </div>
 
                 <div>
-                  <label style={labelStyle}>Status</label>
-                  <select
-                    value={formData.status}
-                    onChange={(e) => setFormData((prev) => ({ ...prev, status: e.target.value as UnitStatus }))}
-                    style={{ ...inputStyle, cursor: 'pointer' }}
-                  >
-                    {statuses.map((s) => <option key={s} value={s}>{s}</option>)}
+                  <label style={labelStyle}>{t('inventory.status')}</label>
+                  <select value={formData.status} onChange={(e) => setFormData((prev) => ({ ...prev, status: e.target.value as UnitStatus }))} style={{ ...inputStyle, cursor: 'pointer' }}>
+                    {statuses.map((s) => <option key={s} value={s}>{t(`status.${s}`, s)}</option>)}
                   </select>
                 </div>
               </div>
 
               <div style={{ marginTop: '1.25rem' }}>
-                <label style={labelStyle}>Notes</label>
+                <label style={labelStyle}>{t('inventory.notes')}</label>
                 <textarea
                   value={formData.notes ?? ''}
                   onChange={(e) => setFormData((prev) => ({ ...prev, notes: e.target.value }))}
                   rows={3}
                   style={{ ...inputStyle, resize: 'vertical' }}
-                  placeholder="Any special notes about this piece..."
+                  placeholder={t('inventory.notesPlaceholder')}
                 />
               </div>
 
               <div style={{ display: 'flex', gap: '1rem', marginTop: '2rem', justifyContent: 'flex-end' }}>
-                <button
-                  type="button"
-                  onClick={() => { setShowForm(false); setFormError(null); }}
-                  style={{ fontFamily: 'var(--font-body)', fontSize: '0.875rem', padding: '0.75rem 1.5rem', background: 'none', border: '1px solid #ddd', cursor: 'pointer', borderRadius: '2px', color: '#555' }}
-                >
-                  Cancel
+                <button type="button" onClick={() => { setShowForm(false); setFormError(null); }} style={{ fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-body)', fontSize: '0.875rem', padding: '0.75rem 1.5rem', background: 'none', border: '1px solid #ddd', cursor: 'pointer', borderRadius: '2px', color: '#555' }}>
+                  {t('inventory.cancel')}
                 </button>
-                <button
-                  type="submit"
-                  disabled={saving}
-                  style={{ fontFamily: 'var(--font-body)', fontSize: '0.875rem', fontWeight: 600, padding: '0.75rem 2rem', background: '#0d1310', color: 'white', border: 'none', cursor: saving ? 'not-allowed' : 'pointer', borderRadius: '2px', opacity: saving ? 0.7 : 1 }}
-                >
-                  {saving ? 'Saving...' : formData.id ? 'Save Changes' : 'Add Unit'}
+                <button type="submit" disabled={saving} style={{ fontFamily: isRtl ? 'var(--font-arabic)' : 'var(--font-body)', fontSize: '0.875rem', fontWeight: 600, padding: '0.75rem 2rem', background: '#0d1310', color: 'white', border: 'none', cursor: saving ? 'not-allowed' : 'pointer', borderRadius: '2px', opacity: saving ? 0.7 : 1 }}>
+                  {saving ? t('inventory.saving') : formData.id ? t('inventory.saveChanges') : t('inventory.addUnit')}
                 </button>
               </div>
             </form>
