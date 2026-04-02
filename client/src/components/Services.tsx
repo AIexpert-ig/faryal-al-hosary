@@ -15,8 +15,8 @@ export default function Services() {
   const { subtitle, titleLine1, titleLine2Italic, services } = servicesConfig;
 
   return (
-    <section style={{ backgroundColor: '#0d1310', padding: '7rem 4rem', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-      <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6rem', alignItems: 'center' }}>
+    <section style={{ backgroundColor: '#0d1310', padding: 'var(--section-py) var(--section-px)', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+      <div className="services-grid section-inner">
 
         {/* Left column: text + CTA */}
         <div>
@@ -37,7 +37,7 @@ export default function Services() {
             style={{
               fontFamily: 'var(--font-sans)',
               fontWeight: 700,
-              fontSize: 'clamp(2rem, 4vw, 3.5rem)',
+              fontSize: 'clamp(1.75rem, 4vw, 3.5rem)',
               color: 'white',
               lineHeight: 1.05,
               marginBottom: '0.25rem',
@@ -51,7 +51,7 @@ export default function Services() {
               fontFamily: 'var(--font-serif)',
               fontStyle: 'italic',
               fontWeight: 400,
-              fontSize: 'clamp(2rem, 4vw, 3.5rem)',
+              fontSize: 'clamp(1.75rem, 4vw, 3.5rem)',
               color: 'white',
               lineHeight: 1.05,
               marginBottom: '2.5rem',
@@ -60,7 +60,7 @@ export default function Services() {
             {titleLine2Italic}
           </h2>
 
-          <div style={{ width: '60px', height: '2px', background: '#c9a96e', marginBottom: '2rem' }} />
+          <div style={{ width: '60px', height: '2px', background: '#c9a96e', marginBottom: '2rem' }} aria-hidden="true" />
 
           <p
             style={{
@@ -79,6 +79,7 @@ export default function Services() {
 
           <button
             onClick={() => navigate('/rentals')}
+            aria-label="Book a consultation"
             style={{
               fontFamily: 'var(--font-body)',
               fontSize: '0.8rem',
@@ -91,6 +92,7 @@ export default function Services() {
               cursor: 'pointer',
               fontWeight: 600,
               transition: 'background 0.2s, transform 0.2s',
+              minHeight: '44px',
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.background = '#d4b87d';
@@ -106,7 +108,7 @@ export default function Services() {
         </div>
 
         {/* Right column: 2x2 service cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5px', background: 'rgba(255,255,255,0.06)' }}>
+        <div className="services-cards-grid">
           {services.map((service) => {
             const IconComponent = iconMap[service.icon];
             return (
@@ -114,13 +116,13 @@ export default function Services() {
                 key={service.title}
                 style={{
                   background: '#0d1310',
-                  padding: '2.5rem 2rem',
+                  padding: 'clamp(1.5rem, 3vw, 2.5rem) clamp(1.25rem, 2vw, 2rem)',
                   transition: 'background 0.3s',
                 }}
                 onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.background = '#111f1a'; }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.background = '#0d1310'; }}
               >
-                <div style={{ marginBottom: '1.25rem' }}>
+                <div style={{ marginBottom: '1.25rem' }} aria-hidden="true">
                   {IconComponent && (
                     <IconComponent
                       size={28}

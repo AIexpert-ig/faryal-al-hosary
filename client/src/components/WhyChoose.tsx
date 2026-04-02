@@ -30,8 +30,8 @@ interface StatBlockProps {
 function StatBlock({ value, suffix, label, started }: StatBlockProps) {
   const count = useCountUp(value, 1800, started);
   return (
-    <div style={{ textAlign: 'center', padding: '2rem 1rem' }}>
-      <div style={{ fontFamily: 'var(--font-sans)', fontWeight: 800, fontSize: 'clamp(2.5rem, 4vw, 3.5rem)', color: 'var(--color-dark)', lineHeight: 1, letterSpacing: '-0.02em' }}>
+    <div style={{ textAlign: 'center', padding: 'clamp(1.25rem, 3vw, 2rem) 1rem' }}>
+      <div style={{ fontFamily: 'var(--font-sans)', fontWeight: 800, fontSize: 'clamp(2rem, 4vw, 3.5rem)', color: 'var(--color-dark)', lineHeight: 1, letterSpacing: '-0.02em' }}>
         {count}{suffix}
       </div>
       <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: '#888', letterSpacing: '0.15em', textTransform: 'uppercase', marginTop: '0.5rem' }}>
@@ -53,7 +53,12 @@ function FeatureImage({ src, alt, title }: { src: string; alt: string; title: st
     );
   }
   return (
-    <img src={src} alt={alt} onError={() => setErrored(true)} style={{ width: '100%', height: '280px', objectFit: 'cover', display: 'block', transition: 'transform 0.5s ease' }}
+    <img
+      src={src}
+      alt={alt}
+      loading="lazy"
+      onError={() => setErrored(true)}
+      style={{ width: '100%', height: '280px', objectFit: 'cover', display: 'block', transition: 'transform 0.5s ease' }}
       onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.03)'; }}
       onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}
     />
@@ -68,7 +73,13 @@ function ShowcaseImage({ src, alt }: { src: string; alt: string }) {
     );
   }
   return (
-    <img src={src} alt={alt} onError={() => setErrored(true)} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+    <img
+      src={src}
+      alt={alt}
+      loading="lazy"
+      onError={() => setErrored(true)}
+      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+    />
   );
 }
 
@@ -92,15 +103,15 @@ export default function WhyChoose() {
   }, []);
 
   return (
-    <section style={{ backgroundColor: 'var(--color-bg)', padding: '7rem 4rem' }}>
-      <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+    <section style={{ backgroundColor: 'var(--color-bg)', padding: 'var(--section-py) var(--section-px)' }}>
+      <div className="section-inner">
 
         {/* Header */}
         <div style={{ marginBottom: '4rem' }}>
           <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#c9a96e', display: 'block', marginBottom: '1rem' }}>
             {subtitle}
           </span>
-          <h2 style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: 'clamp(2.5rem, 5vw, 4rem)', color: 'var(--color-dark)', lineHeight: 1.1 }}>
+          <h2 style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: 'clamp(2rem, 5vw, 4rem)', color: 'var(--color-dark)', lineHeight: 1.1 }}>
             {titleRegular}{' '}
             <span style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontWeight: 400 }}>
               {titleItalic}
@@ -111,13 +122,8 @@ export default function WhyChoose() {
         {/* Stats row */}
         <div
           ref={statsRef}
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            borderTop: '1px solid #ddd',
-            borderLeft: '1px solid #ddd',
-            marginBottom: '4rem',
-          }}
+          className="why-stats-grid"
+          aria-label="Key statistics"
         >
           {stats.map((stat) => (
             <div
@@ -135,7 +141,7 @@ export default function WhyChoose() {
         </div>
 
         {/* Feature cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+        <div className="why-features-grid">
           {features.map((feature) => (
             <div
               key={feature.title}
@@ -148,7 +154,7 @@ export default function WhyChoose() {
               <div style={{ overflow: 'hidden' }}>
                 <FeatureImage src={feature.image} alt={feature.title} title={feature.title} />
               </div>
-              <div style={{ padding: '2rem' }}>
+              <div style={{ padding: 'clamp(1.25rem, 3vw, 2rem)' }}>
                 <h3 style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '1.2rem', color: 'var(--color-dark)', marginBottom: '0.75rem' }}>
                   {feature.title}
                 </h3>
@@ -161,19 +167,25 @@ export default function WhyChoose() {
         </div>
 
         {/* Wide showcase image */}
-        <div style={{ position: 'relative', height: '400px', overflow: 'hidden' }}>
-          <ShowcaseImage src={showcaseImage} alt={showcaseTitle} />
+        <div
+          className="why-showcase"
+          style={{ position: 'relative', height: 'clamp(240px, 30vw, 400px)', overflow: 'hidden' }}
+        >
+          <ShowcaseImage src={showcaseImage} alt={`${showcaseTitle} showcase`} />
           {/* Dark overlay */}
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(13,19,16,0.8) 0%, rgba(13,19,16,0.3) 100%)', zIndex: 2 }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(13,19,16,0.8) 0%, rgba(13,19,16,0.3) 100%)', zIndex: 2 }} aria-hidden="true" />
           {/* Text */}
-          <div style={{ position: 'absolute', inset: 0, zIndex: 3, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '3rem 4rem' }}>
+          <div
+            className="why-showcase-text"
+            style={{ position: 'absolute', inset: 0, zIndex: 3, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 'clamp(1.5rem, 4vw, 3rem) clamp(1.5rem, 4vw, 4rem)' }}
+          >
             <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#c9a96e', marginBottom: '1rem' }}>
               {showcaseSubtitle}
             </p>
-            <h3 style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontSize: 'clamp(2rem, 4vw, 3.5rem)', color: 'white', lineHeight: 1.2 }}>
+            <h3 style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontSize: 'clamp(1.5rem, 4vw, 3.5rem)', color: 'white', lineHeight: 1.2 }}>
               {showcaseTitle}
             </h3>
-            <div style={{ width: '60px', height: '1px', background: '#c9a96e', marginTop: '1.5rem' }} />
+            <div style={{ width: '60px', height: '1px', background: '#c9a96e', marginTop: '1.5rem' }} aria-hidden="true" />
           </div>
         </div>
       </div>

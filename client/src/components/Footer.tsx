@@ -12,15 +12,16 @@ export default function Footer() {
       <div
         style={{
           borderBottom: '1px solid #ddd',
-          padding: '3rem 4rem',
+          padding: 'clamp(1.5rem, 3vw, 3rem) var(--section-px)',
           overflow: 'hidden',
         }}
       >
-        <h1
+        <h2
+          className="footer-logo-text"
           style={{
             fontFamily: 'var(--font-sans)',
             fontWeight: 800,
-            fontSize: 'clamp(2.5rem, 7vw, 7rem)',
+            fontSize: 'clamp(1.75rem, 7vw, 7rem)',
             color: 'var(--color-dark)',
             letterSpacing: '-0.02em',
             lineHeight: 1,
@@ -28,7 +29,7 @@ export default function Footer() {
           }}
         >
           {logoText}
-        </h1>
+        </h2>
         <p
           style={{
             fontFamily: 'var(--font-serif)',
@@ -43,17 +44,10 @@ export default function Footer() {
       </div>
 
       {/* 3-column info */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '0',
-          borderBottom: '1px solid #ddd',
-        }}
-      >
+      <div className="footer-cols">
         {/* Column 1: Contact */}
-        <div style={{ padding: '3rem 4rem', borderRight: '1px solid #ddd' }}>
-          <h4
+        <div style={{ padding: 'clamp(1.5rem, 3vw, 3rem) var(--section-px)', borderRight: '1px solid #ddd' }}>
+          <h3
             style={{
               fontFamily: 'var(--font-sans)',
               fontWeight: 700,
@@ -65,10 +59,10 @@ export default function Footer() {
             }}
           >
             Contact
-          </h4>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          </h3>
+          <address style={{ fontStyle: 'normal', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-              <MapPin size={16} color="#c9a96e" style={{ flexShrink: 0, marginTop: '2px' }} />
+              <MapPin size={16} color="#c9a96e" style={{ flexShrink: 0, marginTop: '2px' }} aria-hidden="true" />
               <span
                 style={{
                   fontFamily: 'var(--font-body)',
@@ -82,7 +76,7 @@ export default function Footer() {
               </span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <Mail size={16} color="#c9a96e" style={{ flexShrink: 0 }} />
+              <Mail size={16} color="#c9a96e" style={{ flexShrink: 0 }} aria-hidden="true" />
               <a
                 href={`mailto:${email}`}
                 style={{
@@ -91,6 +85,7 @@ export default function Footer() {
                   color: '#666',
                   textDecoration: 'none',
                   transition: 'color 0.2s',
+                  wordBreak: 'break-all',
                 }}
                 onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-dark)'; }}
                 onMouseLeave={(e) => { e.currentTarget.style.color = '#666'; }}
@@ -99,7 +94,7 @@ export default function Footer() {
               </a>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <Phone size={16} color="#c9a96e" style={{ flexShrink: 0 }} />
+              <Phone size={16} color="#c9a96e" style={{ flexShrink: 0 }} aria-hidden="true" />
               <a
                 href={`tel:${phone}`}
                 style={{
@@ -115,12 +110,12 @@ export default function Footer() {
                 {phone}
               </a>
             </div>
-          </div>
+          </address>
         </div>
 
         {/* Column 2: Navigation */}
-        <div style={{ padding: '3rem 4rem', borderRight: '1px solid #ddd' }}>
-          <h4
+        <div style={{ padding: 'clamp(1.5rem, 3vw, 3rem) var(--section-px)', borderRight: '1px solid #ddd' }}>
+          <h3
             style={{
               fontFamily: 'var(--font-sans)',
               fontWeight: 700,
@@ -132,36 +127,42 @@ export default function Footer() {
             }}
           >
             Navigation
-          </h4>
-          <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-            {navLinks.map((link) => (
-              <button
-                key={link}
-                onClick={() => navigate(`/${link.toLowerCase()}`)}
-                style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize: '0.875rem',
-                  color: '#666',
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  textAlign: 'left',
-                  padding: 0,
-                  transition: 'color 0.2s',
-                  width: 'fit-content',
-                }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-dark)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = '#666'; }}
-              >
-                {link}
-              </button>
-            ))}
+          </h3>
+          <nav aria-label="Footer navigation">
+            <ul style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', listStyle: 'none', padding: 0 }}>
+              {navLinks.map((link) => (
+                <li key={link}>
+                  <button
+                    onClick={() => navigate(`/${link.toLowerCase()}`)}
+                    style={{
+                      fontFamily: 'var(--font-body)',
+                      fontSize: '0.875rem',
+                      color: '#666',
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      textAlign: 'left',
+                      padding: '0.25rem 0',
+                      transition: 'color 0.2s',
+                      width: 'fit-content',
+                      minHeight: '44px',
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-dark)'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.color = '#666'; }}
+                  >
+                    {link}
+                  </button>
+                </li>
+              ))}
+            </ul>
           </nav>
         </div>
 
         {/* Column 3: Social */}
-        <div style={{ padding: '3rem 4rem' }}>
-          <h4
+        <div style={{ padding: 'clamp(1.5rem, 3vw, 3rem) var(--section-px)' }}>
+          <h3
             style={{
               fontFamily: 'var(--font-sans)',
               fontWeight: 700,
@@ -173,34 +174,38 @@ export default function Footer() {
             }}
           >
             Follow Us
-          </h4>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          </h3>
+          <ul style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', listStyle: 'none', padding: 0 }}>
             {socialLinks.map((social) => (
-              <a
-                key={social.platform}
-                href={social.url}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  fontFamily: 'var(--font-body)',
-                  fontSize: '0.875rem',
-                  color: '#666',
-                  textDecoration: 'none',
-                  transition: 'color 0.2s',
-                  width: 'fit-content',
-                }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-dark)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = '#666'; }}
-              >
-                {social.platform}
-                <ExternalLink size={12} />
-              </a>
+              <li key={social.platform}>
+                <a
+                  href={social.url}
+                  aria-label={`Follow us on ${social.platform}`}
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    fontFamily: 'var(--font-body)',
+                    fontSize: '0.875rem',
+                    color: '#666',
+                    textDecoration: 'none',
+                    transition: 'color 0.2s',
+                    width: 'fit-content',
+                    minHeight: '44px',
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-dark)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = '#666'; }}
+                >
+                  {social.platform}
+                  <ExternalLink size={12} aria-hidden="true" />
+                </a>
+              </li>
             ))}
-          </div>
+          </ul>
 
           <div style={{ marginTop: '2rem' }}>
-            <div style={{ width: '40px', height: '1px', background: '#c9a96e', marginBottom: '1rem' }} />
+            <div style={{ width: '40px', height: '1px', background: '#c9a96e', marginBottom: '1rem' }} aria-hidden="true" />
             <p style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontSize: '0.85rem', color: '#aaa' }}>
               Where dreams become reality
             </p>
@@ -211,10 +216,12 @@ export default function Footer() {
       {/* Bottom bar */}
       <div
         style={{
-          padding: '1.5rem 4rem',
+          padding: '1.5rem var(--section-px)',
           display: 'flex',
+          flexWrap: 'wrap',
           justifyContent: 'space-between',
           alignItems: 'center',
+          gap: '0.75rem',
         }}
       >
         <span
@@ -224,7 +231,7 @@ export default function Footer() {
             color: '#aaa',
           }}
         >
-          © 2024 FARYAL AL HOSARY. All rights reserved.
+          © {new Date().getFullYear()} FARYAL AL HOSARY. All rights reserved.
         </span>
         <span
           style={{

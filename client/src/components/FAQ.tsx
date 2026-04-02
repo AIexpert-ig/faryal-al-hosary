@@ -8,7 +8,10 @@ export default function FAQ() {
   const { subtitle, titleRegular, titleItalic, faqs } = faqConfig;
 
   return (
-    <section style={{ backgroundColor: 'var(--color-bg)', padding: '7rem 4rem' }}>
+    <section
+      className="faq-section"
+      style={{ backgroundColor: 'var(--color-bg)', padding: 'var(--section-py) var(--section-px)' }}
+    >
       <div style={{ maxWidth: '900px', margin: '0 auto' }}>
 
         {/* Header */}
@@ -16,7 +19,7 @@ export default function FAQ() {
           <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#c9a96e', display: 'block', marginBottom: '1rem' }}>
             {subtitle}
           </span>
-          <h2 style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: 'clamp(2rem, 4vw, 3.5rem)', color: 'var(--color-dark)', lineHeight: 1.1 }}>
+          <h2 style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: 'clamp(1.75rem, 4vw, 3.5rem)', color: 'var(--color-dark)', lineHeight: 1.1 }}>
             {titleRegular}{' '}
             <span style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontWeight: 400 }}>
               {titleItalic}
@@ -48,6 +51,7 @@ export default function FAQ() {
                     cursor: 'pointer',
                     textAlign: 'left',
                     gap: '1rem',
+                    minHeight: '44px',
                   }}
                   className="faq-trigger"
                   onMouseEnter={(e) => {
@@ -64,10 +68,11 @@ export default function FAQ() {
                     style={{
                       fontFamily: 'var(--font-sans)',
                       fontWeight: 600,
-                      fontSize: '1rem',
+                      fontSize: 'clamp(0.875rem, 2vw, 1rem)',
                       color: 'var(--color-dark)',
                       lineHeight: 1.4,
                       transition: 'color 0.2s',
+                      textAlign: 'left',
                     }}
                   >
                     {faq.question}
@@ -75,6 +80,7 @@ export default function FAQ() {
                   <ChevronDown
                     size={20}
                     color="#c9a96e"
+                    aria-hidden="true"
                     style={{
                       flexShrink: 0,
                       transition: 'transform 0.3s ease',
@@ -112,6 +118,7 @@ export default function FAQ() {
           </p>
           <button
             onClick={() => navigate('/customers')}
+            aria-label="Contact us"
             style={{
               fontFamily: 'var(--font-body)',
               fontSize: '0.8rem',
@@ -124,6 +131,7 @@ export default function FAQ() {
               cursor: 'pointer',
               fontWeight: 600,
               transition: 'background 0.2s, transform 0.2s',
+              minHeight: '44px',
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.background = '#1a2a24';
@@ -138,12 +146,6 @@ export default function FAQ() {
           </button>
         </div>
       </div>
-
-      <style>{`
-        .faq-trigger[data-state='open'] .faq-chevron {
-          transform: rotate(180deg);
-        }
-      `}</style>
     </section>
   );
 }

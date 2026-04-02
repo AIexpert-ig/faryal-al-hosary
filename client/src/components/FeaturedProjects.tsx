@@ -14,16 +14,17 @@ function ProjectImage({ src, alt, title }: ProjectImageProps) {
   if (errored) {
     return (
       <div
+        aria-label={title}
         style={{
           width: '100%',
           height: '100%',
+          minHeight: '300px',
           background: 'linear-gradient(135deg, #1a2520 0%, #0d1310 100%)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
           gap: '1rem',
-          minHeight: '400px',
         }}
       >
         <div style={{ width: '40px', height: '1px', background: '#c9a96e' }} />
@@ -39,8 +40,9 @@ function ProjectImage({ src, alt, title }: ProjectImageProps) {
     <img
       src={src}
       alt={alt}
+      loading="lazy"
       onError={() => setErrored(true)}
-      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.6s ease', minHeight: '400px' }}
+      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.6s ease', minHeight: '300px' }}
     />
   );
 }
@@ -49,15 +51,15 @@ export default function FeaturedProjects() {
   const { subtitle, titleRegular, titleItalic, projects } = featuredProjectsConfig;
 
   return (
-    <section style={{ backgroundColor: '#0d1310', padding: '7rem 4rem' }}>
-      <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+    <section style={{ backgroundColor: '#0d1310', padding: 'var(--section-py) var(--section-px)' }}>
+      <div className="section-inner">
 
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
           <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#c9a96e', display: 'block', marginBottom: '1rem' }}>
             {subtitle}
           </span>
-          <h2 style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: 'clamp(2.5rem, 5vw, 4rem)', color: 'white', lineHeight: 1.1 }}>
+          <h2 style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: 'clamp(2rem, 5vw, 4rem)', color: 'white', lineHeight: 1.1 }}>
             {titleRegular}{' '}
             <span style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontWeight: 400 }}>
               {titleItalic}
@@ -72,12 +74,8 @@ export default function FeaturedProjects() {
             return (
               <div
                 key={project.id}
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr',
-                  minHeight: '420px',
-                  borderTop: '1px solid rgba(255,255,255,0.06)',
-                }}
+                className="featured-project-row"
+                style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
               >
                 {/* Image side */}
                 <div
@@ -85,6 +83,7 @@ export default function FeaturedProjects() {
                     order: isEven ? 1 : 2,
                     overflow: 'hidden',
                     position: 'relative',
+                    minHeight: '280px',
                   }}
                   onMouseEnter={(e) => {
                     const img = e.currentTarget.querySelector('img');
@@ -95,17 +94,18 @@ export default function FeaturedProjects() {
                     if (img) img.style.transform = 'scale(1)';
                   }}
                 >
-                  <ProjectImage src={project.image} alt={project.title} title={project.title} />
+                  <ProjectImage src={project.image} alt={`${project.title} gown`} title={project.title} />
                 </div>
 
                 {/* Text side */}
                 <div
+                  className="featured-text-pad"
                   style={{
                     order: isEven ? 2 : 1,
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',
-                    padding: '4rem 5rem',
+                    padding: 'clamp(2rem, 4vw, 4rem) clamp(1.5rem, 5vw, 5rem)',
                   }}
                 >
                   <span
@@ -125,7 +125,7 @@ export default function FeaturedProjects() {
                     style={{
                       fontFamily: 'var(--font-sans)',
                       fontWeight: 700,
-                      fontSize: 'clamp(1.5rem, 2.5vw, 2.2rem)',
+                      fontSize: 'clamp(1.25rem, 2.5vw, 2.2rem)',
                       color: 'white',
                       lineHeight: 1.2,
                       marginBottom: '1.5rem',
@@ -134,7 +134,7 @@ export default function FeaturedProjects() {
                   >
                     {project.title}
                   </h3>
-                  <div style={{ width: '40px', height: '1px', background: '#c9a96e', marginBottom: '1.5rem' }} />
+                  <div style={{ width: '40px', height: '1px', background: '#c9a96e', marginBottom: '1.5rem' }} aria-hidden="true" />
                   <p
                     style={{
                       fontFamily: 'var(--font-body)',
@@ -149,6 +149,7 @@ export default function FeaturedProjects() {
                   </p>
                   <Link
                     to="/inventory"
+                    aria-label={`View details for ${project.title}`}
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
@@ -163,6 +164,7 @@ export default function FeaturedProjects() {
                       borderBottom: '1px solid rgba(201,169,110,0.5)',
                       width: 'fit-content',
                       transition: 'color 0.2s, border-color 0.2s',
+                      minHeight: '44px',
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.color = '#c9a96e';
@@ -174,7 +176,7 @@ export default function FeaturedProjects() {
                     }}
                   >
                     View Details
-                    <span style={{ fontSize: '1rem' }}>→</span>
+                    <span aria-hidden="true" style={{ fontSize: '1rem' }}>→</span>
                   </Link>
                 </div>
               </div>

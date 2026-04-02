@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
 const portfolioImages = [
-  { src: '/portfolio/gown-1.svg', alt: 'Gown 1', label: 'Vera Wang' },
-  { src: '/portfolio/gown-2.svg', alt: 'Gown 2', label: 'Elie Saab' },
-  { src: '/portfolio/gown-3.svg', alt: 'Gown 3', label: 'Zuhair Murad' },
-  { src: '/portfolio/gown-4.svg', alt: 'Gown 4', label: 'Oscar de la Renta' },
-  { src: '/portfolio/gown-5.svg', alt: 'Gown 5', label: 'Monique Lhuillier' },
+  { src: '/portfolio/gown-1.svg', alt: 'Vera Wang bridal gown', label: 'Vera Wang' },
+  { src: '/portfolio/gown-2.svg', alt: 'Elie Saab evening gown', label: 'Elie Saab' },
+  { src: '/portfolio/gown-3.svg', alt: 'Zuhair Murad bridal gown', label: 'Zuhair Murad' },
+  { src: '/portfolio/gown-4.svg', alt: 'Oscar de la Renta gown', label: 'Oscar de la Renta' },
+  { src: '/portfolio/gown-5.svg', alt: 'Monique Lhuillier gown', label: 'Monique Lhuillier' },
 ];
 
 function PortfolioImage({ src, alt, label, style }: { src: string; alt: string; label: string; style?: React.CSSProperties }) {
@@ -15,6 +15,7 @@ function PortfolioImage({ src, alt, label, style }: { src: string; alt: string; 
     <div style={{ position: 'relative', overflow: 'hidden', borderRadius: '2px', ...style }}>
       {errored ? (
         <div
+          aria-label={label}
           style={{
             width: '100%',
             height: '100%',
@@ -36,6 +37,7 @@ function PortfolioImage({ src, alt, label, style }: { src: string; alt: string; 
         <img
           src={src}
           alt={alt}
+          loading="lazy"
           onError={() => setErrored(true)}
           style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.5s ease' }}
           onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.04)'; }}
@@ -48,8 +50,10 @@ function PortfolioImage({ src, alt, label, style }: { src: string; alt: string; 
 
 export default function IntroGrid() {
   return (
-    <section style={{ backgroundColor: 'var(--color-bg)', padding: '7rem 4rem', overflow: 'hidden' }}>
-      <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5rem', alignItems: 'center' }}>
+    <section
+      style={{ backgroundColor: 'var(--color-bg)', padding: 'var(--section-py) var(--section-px)', overflow: 'hidden' }}
+    >
+      <div className="intro-grid section-inner">
 
         {/* Left: Text content */}
         <div>
@@ -67,10 +71,10 @@ export default function IntroGrid() {
             The Collection
           </span>
 
-          <h2 style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: 'clamp(2.5rem, 5vw, 4rem)', color: 'var(--color-dark)', lineHeight: 1.05, marginBottom: '0.5rem', letterSpacing: '-0.02em' }}>
+          <h2 style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: 'clamp(2rem, 5vw, 4rem)', color: 'var(--color-dark)', lineHeight: 1.05, marginBottom: '0.5rem', letterSpacing: '-0.02em' }}>
             LUXURY BRIDAL
           </h2>
-          <h2 style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontWeight: 400, fontSize: 'clamp(2.5rem, 5vw, 4rem)', color: 'var(--color-dark)', lineHeight: 1.05, marginBottom: '2rem', letterSpacing: '-0.01em' }}>
+          <h2 style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontWeight: 400, fontSize: 'clamp(2rem, 5vw, 4rem)', color: 'var(--color-dark)', lineHeight: 1.05, marginBottom: '2rem', letterSpacing: '-0.01em' }}>
             & Occasion Wear
           </h2>
 
@@ -81,14 +85,14 @@ export default function IntroGrid() {
             Each piece tells a story of craftsmanship, elegance, and timeless beauty.
           </p>
 
-          <div style={{ display: 'flex', gap: '3rem' }}>
+          <div className="intro-stats" style={{ display: 'flex', gap: '3rem' }}>
             <div>
-              <div style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '2rem', color: 'var(--color-dark)' }}>500+</div>
+              <div style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: 'clamp(1.5rem, 4vw, 2rem)', color: 'var(--color-dark)' }}>500+</div>
               <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: '#888', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Designer Gowns</div>
             </div>
-            <div style={{ width: '1px', background: '#ddd' }} />
+            <div style={{ width: '1px', background: '#ddd' }} aria-hidden="true" />
             <div>
-              <div style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '2rem', color: 'var(--color-dark)' }}>50+</div>
+              <div style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: 'clamp(1.5rem, 4vw, 2rem)', color: 'var(--color-dark)' }}>50+</div>
               <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: '#888', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Global Designers</div>
             </div>
           </div>
@@ -101,13 +105,16 @@ export default function IntroGrid() {
         </div>
 
         {/* Right: Masonry image grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: 'auto auto auto', gap: '12px', height: '580px' }}>
+        <div
+          className="intro-masonry"
+          aria-label="Portfolio gallery"
+        >
           {/* Tall left image */}
           <PortfolioImage
             src={portfolioImages[0].src}
             alt={portfolioImages[0].alt}
             label={portfolioImages[0].label}
-            style={{ gridRow: '1 / 3', height: '100%' }}
+            style={{ gridRow: '1 / 3', height: '100%', minHeight: '160px' }}
           />
 
           {/* Top right */}
@@ -115,7 +122,7 @@ export default function IntroGrid() {
             src={portfolioImages[1].src}
             alt={portfolioImages[1].alt}
             label={portfolioImages[1].label}
-            style={{ height: '200px' }}
+            style={{ height: '200px', minHeight: '120px' }}
           />
 
           {/* Mid right */}
@@ -123,7 +130,7 @@ export default function IntroGrid() {
             src={portfolioImages[2].src}
             alt={portfolioImages[2].alt}
             label={portfolioImages[2].label}
-            style={{ height: '160px' }}
+            style={{ height: '160px', minHeight: '100px' }}
           />
 
           {/* Bottom left */}
@@ -131,7 +138,7 @@ export default function IntroGrid() {
             src={portfolioImages[3].src}
             alt={portfolioImages[3].alt}
             label={portfolioImages[3].label}
-            style={{ height: '160px' }}
+            style={{ height: '160px', minHeight: '100px' }}
           />
 
           {/* Bottom right */}
@@ -139,7 +146,7 @@ export default function IntroGrid() {
             src={portfolioImages[4].src}
             alt={portfolioImages[4].alt}
             label={portfolioImages[4].label}
-            style={{ height: '160px' }}
+            style={{ height: '160px', minHeight: '100px' }}
           />
         </div>
       </div>
